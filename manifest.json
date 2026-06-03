@@ -1,6 +1,0 @@
-{
-    "models": [
-        { "name": "mansion", "file": "axom_mansion.obj", "tags": ["mansion", "building"] },
-        { "name": "human", "file": "human.obj", "tags": ["human", "character"] }
-    ]
-}
