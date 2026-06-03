@@ -219,32 +219,106 @@ button, input, select {
 .assetsection {
     margin-top: 12px;
 }
-.animtoolbar {
+.animtoolbar, .aitoolbar {
     background: #2d2d3a;
     padding: 8px;
     display: flex;
     gap: 8px;
     flex-wrap: wrap;
 }
-.keyframelist {
+.betatag {
+    background: #7c3a2e;
+    color: #ffb347;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: bold;
+}
+.keyframelist, .aichatlog {
     background: #1e1e2a;
     padding: 10px;
     height: 200px;
     overflow-y: auto;
     margin: 8px;
+    font-size: 12px;
 }
-.keyframeitem {
+.keyframeitem, .chatmessage {
     background: #2e2e3c;
     margin: 4px 0;
     padding: 5px;
     border-radius: 4px;
-    font-size: 11px;
     display: flex;
     justify-content: space-between;
 }
-.addkeyframe {
+.addkeyframe, .aichatinput {
     padding: 8px;
     display: flex;
     gap: 8px;
     flex-wrap: wrap;
-  }
+}
+.aichatinput {
+    margin-top: 4px;
+}
+#aiprompt {
+    flex: 1;
+}
+.guibar {
+    background: #2d2d3a;
+    padding: 8px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    border-bottom: 1px solid #3a3a48;
+    max-height: 80px;
+    overflow-y: auto;
+}
+.guicontainer {
+    position: relative;
+    width: 100%;
+    height: calc(100% - 80px);
+    background: #2a2a2e;
+    overflow: auto;
+}
+.guiobject {
+    position: absolute;
+    border: 1px solid #ff8c42;
+    box-sizing: border-box;
+}
+.guiobject.selected {
+    border: 2px solid #ffcc44;
+    box-shadow: 0 0 0 2px rgba(255,204,68,0.5);
+}
+.guiobject .resizehandle {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: #ffcc44;
+    bottom: -4px;
+    right: -4px;
+    cursor: se-resize;
+}
+.guiproperties {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    width: 280px;
+    background: #2d2d3a;
+    border-radius: 8px;
+    padding: 8px;
+    font-size: 11px;
+    z-index: 100;
+    max-height: 300px;
+    overflow-y: auto;
+}
+.guiproperties input, .guiproperties select {
+    width: 100%;
+    margin: 4px 0;
+}
+.billboardgui, .surfacegui {
+    transform-style: preserve-3d;
+}
+.videoframe video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
