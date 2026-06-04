@@ -12,12 +12,6 @@ Do you want ui/gui for your game? (like text, buttons, frames, etc)?
 I am working on a full built-in gui system and I'm adding a feature to be able to script/code guis if you are a coder. 
 even if you're not a coder, the built-in gui system has manual gui design!. 
 
-the game engine has a built in simple customizer ai. 
-note : it does NOT create new models, it only takes models and customize them depending on your request. 
-for example, 
-user : make a blue big house
-customizer : *takes a ready house model, resize it and changes its color to blue* here is the model. *inserts model*
-
 this game engine is completely made by Axom. 
 inspired by public game engines but this one for mobile users and PC users combined 
 
