@@ -1,0 +1,278 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    user-select: none;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #1a1e24;
+    overflow: hidden;
+    height: 100vh;
+}
+
+.studio-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background: #1e2229;
+}
+
+.top-bar {
+    background: #2c313c;
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #3a3f4a;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.logo {
+    font-weight: bold;
+    font-size: 18px;
+    background: linear-gradient(135deg, #ffaa44, #ff6644);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    letter-spacing: 1px;
+}
+
+.top-buttons button {
+    background: #3a4050;
+    border: none;
+    color: #eef2ff;
+    padding: 6px 12px;
+    margin-left: 8px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: 0.1s;
+}
+
+.top-buttons button:hover {
+    background: #4a5268;
+    transform: translateY(-1px);
+}
+
+.accent {
+    background: #2d6a4f !important;
+}
+
+.run-btn {
+    background: #e67e22 !important;
+    color: white !important;
+}
+
+.workspace {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+.panel {
+    background: #252a33;
+    border-right: 1px solid #3a3f4a;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    width: 260px;
+}
+
+.left-panel {
+    width: 280px;
+}
+
+.right-panel {
+    width: 340px;
+    border-left: 1px solid #3a3f4a;
+    border-right: none;
+}
+
+.viewport-area {
+    flex: 1;
+    position: relative;
+    background: #0f1117;
+}
+
+.canvas-wrapper {
+    width: 100%;
+    height: calc(100% - 30px);
+}
+
+.status-line {
+    position: absolute;
+    bottom: 8px;
+    left: 12px;
+    background: rgba(0,0,0,0.6);
+    color: #ccc;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.panel-header {
+    background: #1f232b;
+    padding: 10px 12px;
+    font-weight: bold;
+    color: #ffaa66;
+    border-bottom: 1px solid #3a3f4a;
+    font-size: 13px;
+}
+
+.subhead {
+    font-size: 11px;
+    color: #aaa;
+    margin: 8px 0 4px 12px;
+    text-transform: uppercase;
+}
+
+.asset-list {
+    max-height: 140px;
+    overflow-y: auto;
+    background: #1e2229;
+    margin: 0 8px 8px 8px;
+    border-radius: 6px;
+    padding: 4px;
+}
+
+.asset-item {
+    background: #2c313c;
+    margin: 4px 0;
+    padding: 5px 8px;
+    border-radius: 5px;
+    font-size: 12px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.asset-item.selected {
+    background: #4a6a8a;
+    color: white;
+}
+
+.transform-panel {
+    padding: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.transform-panel label {
+    color: #ddd;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.transform-panel input {
+    width: 60px;
+    background: #1a1e24;
+    border: 1px solid #4a5268;
+    color: white;
+    padding: 4px;
+    border-radius: 4px;
+}
+
+.transform-panel button {
+    background: #3a4050;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+}
+
+.paint-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 10px;
+    background: #1f232b;
+    border-bottom: 1px solid #3a3f4a;
+}
+
+.paint-toolbar button {
+    background: #3a4050;
+    border: none;
+    padding: 5px 8px;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.tool-active {
+    background: #e67e22 !important;
+}
+
+.paint-canvas {
+    background: white;
+    margin: 12px auto;
+    display: block;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px black;
+    cursor: crosshair;
+}
+
+.paint-actions {
+    display: flex;
+    gap: 8px;
+    padding: 8px;
+    flex-wrap: wrap;
+}
+
+.paint-actions button, .plugin-bar button {
+    background: #3a4050;
+    border: none;
+    padding: 5px 8px;
+    border-radius: 4px;
+    color: white;
+    font-size: 11px;
+    cursor: pointer;
+}
+
+.plugin-bar {
+    display: flex;
+    gap: 6px;
+    padding: 8px;
+    flex-wrap: wrap;
+}
+
+.code-area {
+    width: 100%;
+    height: 200px;
+    background: #1a1e24;
+    color: #e2e8f0;
+    border: none;
+    font-family: monospace;
+    font-size: 12px;
+    padding: 8px;
+    resize: vertical;
+}
+
+.script-footer {
+    display: flex;
+    gap: 10px;
+    padding: 8px;
+}
+
+.run-btn-small {
+    background: #e67e22;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.asset-upload-hidden {
+    display: none;
+  }
