@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Axojita Game Studio - Full Game Engine</title>
+    <title>Axojita Game Studio - [BETA] Game Engine</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -84,19 +84,12 @@
                 <div class="panel-section code-section">
                     <div class="section-header">📝 GAME SCRIPTING (JavaScript)</div>
                     <textarea id="codeEditor" class="code-editor" spellcheck="false">
-// Axojita Game Scripting API
-// Selected object is "selectedObj", scene objects accessible via "gameObjects"
-// Update function runs every frame
-
 let speed = 2;
 function onUpdate(deltaTime) {
     if(selectedObj) {
         selectedObj.rotation.y += deltaTime * 1.5;
     }
 }
-
-// You can also create new objects
-// createCube("myCube", {x:2, y:1, z:0});
                     </textarea>
                     <div class="code-actions">
                         <button id="applyScriptBtn" class="prop-btn">Apply Script</button>
