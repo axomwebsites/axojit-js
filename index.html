@@ -3,105 +3,121 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Axojita Game Studio</title>
+    <title>Axojita Game Studio - Full Game Engine</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="studio-container">
-    <div class="top-bar">
-        <div class="logo">AXOJITA GAME STUDIO</div>
-        <div class="top-buttons">
-            <button id="newCubeBtn">➕ Cube</button>
-            <button id="newSphereBtn">⚪ Sphere</button>
-            <button id="import3DBtn" class="accent">📁 Import 3D Model</button>
-            <button id="importImageBtn">🖼️ Image Asset</button>
-            <button id="importVideoBtn">🎬 Video Asset</button>
-            <button id="importSoundBtn">🎵 Sound Asset</button>
-            <button id="runScriptBtn" class="run-btn">▶ RUN GAME CODE</button>
-        </div>
-    </div>
-    <div class="workspace">
-        <div class="panel left-panel">
-            <div class="panel-header">📦 ASSETS & OBJECTS</div>
-            <div class="asset-section">
-                <div class="subhead">3D Models / Objects</div>
-                <div id="objectList" class="asset-list"></div>
-                <div class="subhead">🖼️ Images / Videos</div>
-                <div id="mediaAssets" class="asset-list"></div>
-                <div class="subhead">🔊 Sounds</div>
-                <div id="soundAssets" class="asset-list"></div>
-            </div>
-            <div class="panel-header" style="margin-top:12px">🎮 TRANSFORM</div>
-            <div class="transform-panel">
-                <label>X: <input type="number" id="posX" step="0.1"></label>
-                <label>Y: <input type="number" id="posY" step="0.1"></label>
-                <label>Z: <input type="number" id="posZ" step="0.1"></label>
-                <button id="applyTransformBtn">Apply</button>
-                <button id="deleteSelectedBtn">🗑️ Delete</button>
+    <div class="app-container">
+        <div class="top-bar">
+            <div class="studio-title">AXOJITA GAME STUDIO</div>
+            <div class="top-actions">
+                <button id="runGameBtn" class="top-btn">▶ Run Game</button>
+                <button id="stopGameBtn" class="top-btn">■ Stop</button>
+                <button id="addCubeBtn" class="top-btn">+ Cube</button>
+                <button id="addPlaneBtn" class="top-btn">+ Plane</button>
+                <button id="addLightBtn" class="top-btn">+ Light</button>
             </div>
         </div>
-        <div class="viewport-area">
-            <div id="gameCanvasContainer" class="canvas-wrapper"></div>
-            <div class="status-line" id="statusMsg">Ready | Drag to orbit | 3D models appear here</div>
-        </div>
-        <div class="panel right-panel">
-            <div class="panel-header">🎨 2D STUDIO (DRAW / PAINT)</div>
-            <div class="paint-toolbar">
-                <button id="penTool" class="tool-active">✏️ Pen</button>
-                <button id="eraserTool">🧽 Eraser</button>
-                <button id="rectTool">⬛ Rect</button>
-                <button id="circleTool">⚪ Circle</button>
-                <button id="fillTool">🪣 Fill</button>
-                <input type="color" id="paintColor" value="#FF8844">
-                <input type="range" id="paintSize" min="1" max="24" value="4"><span id="sizeLabel">4</span>
-                <button id="clearCanvasBtn">🗑️ Clear</button>
+        <div class="main-layout">
+            <div class="left-panel">
+                <div class="panel-section">
+                    <div class="section-header">EXPLORER</div>
+                    <div id="hierarchyList" class="hierarchy-list"></div>
+                </div>
+                <div class="panel-section">
+                    <div class="section-header">PROPERTIES</div>
+                    <div id="propertiesPanel" class="properties-panel">
+                        <div class="prop-row"><span>Name</span><input id="objName" type="text" value="Object"></div>
+                        <div class="prop-row"><span>Position X</span><input id="posX" type="number" step="0.1" value="0"></div>
+                        <div class="prop-row"><span>Position Y</span><input id="posY" type="number" step="0.1" value="0"></div>
+                        <div class="prop-row"><span>Position Z</span><input id="posZ" type="number" step="0.1" value="0"></div>
+                        <div class="prop-row"><span>Rotation X</span><input id="rotX" type="number" step="1" value="0"></div>
+                        <div class="prop-row"><span>Rotation Y</span><input id="rotY" type="number" step="1" value="0"></div>
+                        <div class="prop-row"><span>Rotation Z</span><input id="rotZ" type="number" step="1" value="0"></div>
+                        <div class="prop-row"><span>Scale X</span><input id="sclX" type="number" step="0.1" value="1"></div>
+                        <div class="prop-row"><span>Scale Y</span><input id="sclY" type="number" step="0.1" value="1"></div>
+                        <div class="prop-row"><span>Scale Z</span><input id="sclZ" type="number" step="0.1" value="1"></div>
+                        <button id="deleteSelectedBtn" class="prop-btn">Delete Selected</button>
+                        <button id="duplicateSelectedBtn" class="prop-btn">Duplicate</button>
+                    </div>
+                </div>
+                <div class="panel-section">
+                    <div class="section-header">🎨 2D DRAWING STUDIO</div>
+                    <div class="drawing-toolbar">
+                        <button id="brushTool" class="draw-tool active">✏️ Brush</button>
+                        <button id="eraserTool" class="draw-tool">🧽 Eraser</button>
+                        <button id="fillTool" class="draw-tool">🪣 Fill</button>
+                        <button id="rectTool" class="draw-tool">⬛ Rect</button>
+                        <button id="circleTool" class="draw-tool">⚪ Circle</button>
+                        <input type="color" id="drawColor" value="#ffaa44">
+                        <input type="range" id="brushSize" min="1" max="32" value="5">
+                        <span id="sizeLabel">5</span>
+                        <button id="clearCanvasBtn" class="draw-tool">🗑 Clear</button>
+                        <button id="addLayerBtn" class="draw-tool">+ Layer</button>
+                    </div>
+                    <div class="layers-bar">
+                        <select id="layerSelect"></select>
+                        <button id="removeLayerBtn">Remove Layer</button>
+                    </div>
+                    <canvas id="drawingCanvas" width="400" height="300" class="draw-canvas"></canvas>
+                    <button id="exportSpriteBtn" class="prop-btn">Export as Texture to Scene</button>
+                </div>
             </div>
-            <canvas id="paintCanvas" width="400" height="240" class="paint-canvas"></canvas>
-            <div class="paint-actions">
-                <button id="applyTextureToSelected">🎨 Apply Drawing to Selected 3D</button>
-                <button id="createSpriteFromPaint">🖼️ Create Sprite (2D Plane)</button>
-                <button id="exportDrawingAsset">💾 Save as Texture Asset</button>
+            <div class="center-panel">
+                <div class="viewport-header">
+                    <span>🎮 GAME PREVIEW (3D)</span>
+                    <div class="import-zone">
+                        <input type="file" id="modelImport" accept=".glb,.gltf,.obj" style="display:none">
+                        <button id="importModelBtn" class="small-btn">📁 Import 3D Model</button>
+                        <input type="file" id="assetUpload" accept="image/*,video/*,audio/*" style="display:none">
+                        <button id="uploadAssetBtn" class="small-btn">📦 Upload Asset</button>
+                    </div>
+                </div>
+                <canvas id="gameCanvas" class="game-canvas"></canvas>
+                <div id="statusBar" class="status-bar">Ready | 3D modeling imported into preview | Asset support active</div>
             </div>
-            <div class="panel-header" style="margin-top:12px">🧩 ADVANCED 2D PLUGINS</div>
-            <div class="plugin-bar">
-                <button id="outlinePlugin">✨ Outline Strokes</button>
-                <button id="pixelatePlugin">🔲 Pixelate Effect</button>
-                <button id="gradientFillPlugin">🌈 Gradient Fill</button>
-                <button id="patternPlugin">🌀 Pattern Brush</button>
-            </div>
-            <div class="panel-header" style="margin-top:10px">💻 GAME SCRIPTING (JS)</div>
-            <textarea id="codeEditor" class="code-area" spellcheck="false">// Axojita Game Engine API
-let rotator = null;
-engine.onStart(() => {
-    rotator = engine.createCube(1, 0x44aa88);
-    rotator.position.set(0, 1, 0);
-    if(engine.sounds.size > 0) engine.playSound(Array.from(engine.sounds.keys())[0]);
-});
-engine.onUpdate((deltaTime) => {
-    if(rotator) rotator.rotation.y += 1.5 * deltaTime;
-});
-</textarea>
-            <div class="script-footer">
-                <button id="evalScriptBtn" class="run-btn-small">🚀 Execute Script</button>
-                <button id="resetScriptBtn">Reset Example</button>
-            </div>
-        </div>
-    </div>
-    <div class="asset-upload-hidden">
-        <input type="file" id="modelFileInput" accept=".gltf,.glb,.obj" style="display:none">
-        <input type="file" id="imageFileInput" accept="image/*" style="display:none">
-        <input type="file" id="videoFileInput" accept="video/mp4,webm" style="display:none">
-        <input type="file" id="soundFileInput" accept="audio/mpeg,audio/wav,audio/ogg" style="display:none">
-    </div>
-</div>
-<script type="importmap">
-    {
-        "imports": {
-            "three": "https://unpkg.com/three@0.128.0/build/three.module.js",
-            "three/addons/": "https://unpkg.com/three@0.128.0/examples/jsm/"
-        }
+            <div class="right-panel">
+                <div class="panel-section">
+                    <div class="section-header">ASSET LIBRARY</div>
+                    <div id="assetList" class="asset-grid"></div>
+                </div>
+                <div class="panel-section code-section">
+                    <div class="section-header">📝 GAME SCRIPTING (JavaScript)</div>
+                    <textarea id="codeEditor" class="code-editor" spellcheck="false">
+// Axojita Game Scripting API
+// Selected object is "selectedObj", scene objects accessible via "gameObjects"
+// Update function runs every frame
+
+let speed = 2;
+function onUpdate(deltaTime) {
+    if(selectedObj) {
+        selectedObj.rotation.y += deltaTime * 1.5;
     }
-</script>
-<script type="module" src="main.js"></script>
+}
+
+// You can also create new objects
+// createCube("myCube", {x:2, y:1, z:0});
+                    </textarea>
+                    <div class="code-actions">
+                        <button id="applyScriptBtn" class="prop-btn">Apply Script</button>
+                        <button id="resetScriptBtn" class="prop-btn">Reset</button>
+                    </div>
+                </div>
+                <div class="panel-section">
+                    <div class="section-header">🔊 SOUND PLAYER</div>
+                    <div id="soundList" class="sound-list"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.128.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.128.0/examples/jsm/"
+            }
+        }
+    </script>
+    <script type="module" src="main.js"></script>
 </body>
 </html>
