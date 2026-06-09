@@ -1,62 +1,128 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>axojita game engine</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>axojita</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="styles.css">
 </head>
-<body class="themedark">
-<div class="appcontainer">
-  <div class="viewport">
-    <canvas id="enginecanvas"></canvas>
-  </div>
-  <div class="sidebar">
-    <div class="sidebarheader">
-      <span><i class="fas fa-cube"></i>engine</span>
-      <div class="modeswitch">
-        <button id="mode3dbtn" class="modebtn active"><i class="fas fa-cube"></i> 3d</button>
-        <button id="mode2dbtn" class="modebtn"><i class="fas fa-square"></i> 2d</button>
-      </div>
-      <button id="themetogglebtn" class="btnsecondary">🌓</button>
-    </div>
-    <div class="tabbar">
-      <div class="tab active" data-tab="explorer">explorer</div>
-      <div class="tab" data-tab="properties">properties</div>
-      <div class="tab" data-tab="animation">animation</div>
-      <div class="tab" data-tab="physics">physics</div>
-      <div class="tab" data-tab="particles">particles</div>
-      <div class="tab" data-tab="script">script</div>
-      <div class="tab" data-tab="assets">assets</div>
-      <div class="tab" data-tab="lighting">lighting</div>
-      <div class="tab" data-tab="sound">sound</div>
-      <div class="tab" data-tab="navmesh">navmesh</div>
-      <div class="tab" data-tab="tools">tools</div>
-      <div class="tab" data-tab="export">export</div>
-    </div>
-    <div id="explorerpane" class="tabpane activepane"></div>
-    <div id="propertiespane" class="tabpane"></div>
-    <div id="animationpane" class="tabpane"></div>
-    <div id="physicspane" class="tabpane"></div>
-    <div id="particlespane" class="tabpane"></div>
-    <div id="scriptpane" class="tabpane"></div>
-    <div id="assetspane" class="tabpane"></div>
-    <div id="lightingpane" class="tabpane"></div>
-    <div id="soundpane" class="tabpane"></div>
-    <div id="navmeshpane" class="tabpane"></div>
-    <div id="toolspane" class="tabpane"></div>
-    <div id="exportpane" class="tabpane"></div>
-  </div>
+<body class="themedark" id="bodytheme">
+
+<div class="topribbon">
+<div class="ribbonsection">
+<button class="ribbonbtn" id="btntogglemoded"><i class="fas fa-cube"></i></button>
+<button class="ribbonbtn" id="btnthemetoggle"><i class="fas fa-moon"></i></button>
 </div>
+<div class="ribbonsection">
+<button class="ribbonbtn" id="btnaddpart"><i class="fas fa-box"></i></button>
+<button class="ribbonbtn" id="btnaddlight"><i class="fas fa-lightbulb"></i></button>
+<button class="ribbonbtn" id="btnaddcam"><i class="fas fa-camera"></i></button>
+<button class="ribbonbtn" id="btnaddparticles"><i class="fas fa-sparkles"></i></button>
+</div>
+<div class="ribbonsection">
+<button class="ribbonbtn" id="btnundo"><i class="fas fa-undo"></i></button>
+<button class="ribbonbtn" id="btnredo"><i class="fas fa-redo"></i></button>
+<button class="ribbonbtn" id="btngroup"><i class="fas fa-object-group"></i></button>
+<button class="ribbonbtn" id="btnungroup"><i class="fas fa-object-ungroup"></i></button>
+</div>
+<div class="ribbonsection">
+<button class="ribbonbtn" id="btntranslate"><i class="fas fa-arrows-alt"></i></button>
+<button class="ribbonbtn" id="btnrotate"><i class="fas fa-sync-alt"></i></button>
+<button class="ribbonbtn" id="btnscale"><i class="fas fa-expand-arrows-alt"></i></button>
+<button class="ribbonbtn" id="btnsnap"><i class="fas fa-th"></i></button>
+</div>
+<div class="ribbonsection">
+<button class="ribbonbtn" id="btnplay"><i class="fas fa-play"></i></button>
+<button class="ribbonbtn" id="btnstop"><i class="fas fa-stop"></i></button>
+<button class="ribbonbtn" id="btnexport"><i class="fas fa-save"></i></button>
+</div>
+</div>
+
+<div class="mainlayout">
+<div class="viewportarea">
+<div id="threecontainer" class="canvascontainer"></div>
+<canvas id="twocanvas" class="canvascontainer hidden"></canvas>
+<div class="tooloverlay" id="drawtools">
+<button class="ribbonbtn" id="btndrawbrush"><i class="fas fa-paint-brush"></i></button>
+<button class="ribbonbtn" id="btndrawline"><i class="fas fa-minus"></i></button>
+<input type="color" id="drawcolor">
+<input type="range" id="drawsize" min="1" max="50" value="5">
+</div>
+</div>
+<div class="sidebararea">
+<div class="panel">
+<div class="panelheader"><i class="fas fa-sitemap"></i> explorer</div>
+<div class="panelcontent" id="explorerlist"></div>
+</div>
+<div class="panel">
+<div class="panelheader"><i class="fas fa-sliders-h"></i> properties</div>
+<div class="panelcontent propsgrid" id="propertieslist">
+<span>name</span><input type="text" id="propname">
+<span>pos x</span><input type="number" id="propposx" step="0.1">
+<span>pos y</span><input type="number" id="propposy" step="0.1">
+<span>pos z</span><input type="number" id="propposz" step="0.1">
+<span>rot x</span><input type="number" id="proprotx" step="0.1">
+<span>rot y</span><input type="number" id="proproty" step="0.1">
+<span>rot z</span><input type="number" id="proprotz" step="0.1">
+<span>scl x</span><input type="number" id="propsclx" step="0.1">
+<span>scl y</span><input type="number" id="propscly" step="0.1">
+<span>scl z</span><input type="number" id="propsclz" step="0.1">
+<span>color</span><input type="color" id="propcolor">
+<span>pivot x</span><input type="number" id="proppivx" step="0.1">
+<span>pivot y</span><input type="number" id="proppivy" step="0.1">
+<span>nineslice</span><input type="checkbox" id="propnine">
+<span>physics</span><input type="checkbox" id="propphysics">
+<span>mass</span><input type="number" id="propmass" step="0.1">
+<span>navmesh</span><input type="checkbox" id="propnav">
+</div>
+</div>
+</div>
+</div>
+
+<div class="bottomtabs">
+<div class="tabheaders">
+<button class="tabbtn active" id="tabbtnscript">scripting</button>
+<button class="tabbtn" id="tabbtnanim">timeline & anim</button>
+<button class="tabbtn" id="tabbtnsound">sound</button>
+<button class="tabbtn" id="tabbtnassets">assets</button>
+<button class="tabbtn" id="tabbtnplugins">plugins</button>
+</div>
+<div class="tabbody">
+<div class="tabcontent active" id="tabscript">
+<textarea id="scripteditor" spellcheck="false" placeholder="function onupdate(dt) { ... }"></textarea>
+</div>
+<div class="tabcontent hidden" id="tabanim">
+<div class="animtoolbar">
+<button class="ribbonbtn" id="btnaddkeyframe"><i class="fas fa-plus"></i></button>
+<button class="ribbonbtn" id="btntweenmode"><i class="fas fa-random"></i></button>
+<input type="range" id="timelinepos" min="0" max="100" value="0">
+</div>
+<canvas id="timelinecanvas"></canvas>
+</div>
+<div class="tabcontent hidden" id="tabsound">
+<button class="ribbonbtn" id="btnaddsound"><i class="fas fa-file-audio"></i></button>
+<div id="soundlist"></div>
+</div>
+<div class="tabcontent hidden" id="tabassets">
+<button class="ribbonbtn" id="btnupload"><i class="fas fa-upload"></i></button>
+<div id="assetlist"></div>
+</div>
+<div class="tabcontent hidden" id="tabplugins">
+<button class="ribbonbtn" id="btnloadplugin"><i class="fas fa-puzzle-piece"></i></button>
+<div id="pluginlist"></div>
+</div>
+</div>
+</div>
+
 <script type="importmap">
-  {
-    "imports": {
-      "three": "https://unpkg.com/three@0.128.0/build/three.module.js",
-      "three/addons/": "https://unpkg.com/three@0.128.0/examples/jsm/"
-    }
-  }
+{
+"imports": {
+"three": "https://unpkg.com/three@0.150.1/build/three.module.js",
+"threeaddons/": "https://unpkg.com/three@0.150.1/examples/jsm/"
+}
+}
 </script>
-<script type="module" src="main.js"></script>
+<script type="module" src="script.js"></script>
 </body>
 </html>
