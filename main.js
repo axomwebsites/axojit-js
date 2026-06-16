@@ -67,6 +67,16 @@ document.addEventListener('DOMContentLoaded', function() {
         mousedown = true;
         lastmx = e.clientX;
         lastmy = e.clientY;
+        if (engine.iseditmode) {
+            const clicked = engine.entities.get(engine.selectedentity);
+            if (clicked && clicked.renderable) {
+                const dx = engine.input.mouse.worldx - clicked.transform.x;
+                const dy = engine.input.mouse.worldy - clicked.transform.y;
+                if (Math.abs(dx) < 20 && Math.abs(dy) < 20) {
+                    ui.selectnode(document.querySelector('[data-id="'+engine.selectedentity+'"]'), engine);
+                }
+            }
+        }
     });
 
     document.addEventListener('mouseup', function() {
