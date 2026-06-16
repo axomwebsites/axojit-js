@@ -2,59 +2,106 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Axojit Game Engine - Studio</title>
-    <link rel="stylesheet" href="css/studio.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Axojita Game Engine</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="studio-container">
-        <header id="top-ribbon">
-            <div class="studio-logo">Axojit Studio</div>
-            <div class="ribbon-tabs">
-                <button class="tab-btn active">Home</button>
-                <button class="tab-btn">Model</button>
-                <button class="tab-btn">Test</button>
-                <button class="tab-btn">View</button>
+    <div id="app">
+        <header id="toolbar">
+            <div class="toolbargroup">
+                <button id="btnplay" class="toolbtn" title="Play Mode">Play</button>
+                <button id="btnstop" class="toolbtn" title="Stop Mode">Stop</button>
+                <span class="toolbardivider"></span>
+                <button id="btnselect" class="toolbtn active" title="Select">Select</button>
+                <button id="btnmove" class="toolbtn" title="Move">Move</button>
+                <button id="btnrotate" class="toolbtn" title="Rotate">Rotate</button>
+                <button id="btnscale" class="toolbtn" title="Scale">Scale</button>
             </div>
-            <div class="quick-actions">
-                <button id="btn-play" class="action-btn">Run</button>
-                <button id="btn-stop" class="action-btn" disabled>Stop</button>
-                <button id="btn-spawn" class="action-btn">+ Spawn Part</button>
+            <div class="toolbargroup">
+                <button id="btnnew" class="toolbtn" title="New Scene">New</button>
+                <button id="btnsave" class="toolbtn" title="Save Scene">Save</button>
+                <button id="btnload" class="toolbtn" title="Load Scene">Load</button>
+            </div>
+            <div class="toolbargroup">
+                <span id="fpsdisplay" class="toolbarlabel">FPS: 0</span>
+                <span id="entitycount" class="toolbarlabel">Entities: 0</span>
+                <span id="modedisplay" class="toolbarlabel modeedit">EDIT</span>
             </div>
         </header>
 
-        <main id="workspace">
-            <section id="left-panel" class="sidebar">
-                <div class="panel-header">Toolbox</div>
-                <div class="panel-content empty"></div>
-            </section>
-
-            <section id="viewport-container">
-                <canvas id="glCanvas"></canvas>
-            </section>
-
-            <section id="right-panel" class="sidebar">
-                <div class="sub-panel" id="explorer-panel">
-                    <div class="panel-header">Explorer</div>
-                    <div id="explorer-tree" class="panel-content">
-                        <div class="tree-item root">Workspace</div>
+        <div id="workspace">
+            <aside id="explorerpanel" class="dockpanel">
+                <div class="panelheader">
+                    <span class="paneltitle">Explorer</span>
+                    <button class="panelcollapse">-</button>
+                </div>
+                <div class="panelbody" id="explorertree">
+                    <div class="treenode" data-id="root">
+                        <span class="treetoggle">▼</span>
+                        <span class="treelabel">Scene</span>
+                        <div class="treechildren" id="scenechildren"></div>
                     </div>
                 </div>
-                <div class="sub-panel" id="properties-panel">
-                    <div class="panel-header">Properties</div>
-                    <div id="properties-list" class="panel-content">
-                        <div class="prop-row text-center">Select an object to inspect</div>
+                <div class="panelfooter">
+                    <button id="btnaddentity" class="panelbtn">+ Entity</button>
+                    <button id="btnaddgroup" class="panelbtn">+ Group</button>
+                </div>
+            </aside>
+
+            <main id="viewportcontainer">
+                <canvas id="viewportcanvas"></canvas>
+                <div id="viewportoverlay">
+                    <div id="viewportcoords">X: 0.00 Y: 0.00</div>
+                    <div id="viewportzoom">Zoom: 100%</div>
+                </div>
+            </main>
+
+            <aside id="propertiespanel" class="dockpanel">
+                <div class="panelheader">
+                    <span class="paneltitle">Properties</span>
+                    <button class="panelcollapse">-</button>
+                </div>
+                <div class="panelbody" id="propertiesbody">
+                    <div class="propertygroup">
+                        <div class="propertygrouplabel">No selection</div>
+                        <div class="propertyrow">
+                            <span class="propertykey">Select an entity to edit</span>
+                        </div>
                     </div>
                 </div>
-            </section>
-        </main>
+                <div class="panelfooter">
+                    <button id="btnduplicate" class="panelbtn">Duplicate</button>
+                    <button id="btndelete" class="panelbtn danger">Delete</button>
+                </div>
+            </aside>
+        </div>
 
-        <footer id="output-bar">
-            <div class="panel-header">Output</div>
-            <div id="output-log" class="panel-content">Axojit Game Engine loaded successfully.</div>
+        <footer id="timelinepanel" class="dockpanel">
+            <div class="panelheader">
+                <span class="paneltitle">Timeline</span>
+                <div class="timelinecontrols">
+                    <button id="tlplay" class="tlbtn">Play</button>
+                    <button id="tlstop" class="tlbtn">Stop</button>
+                    <button id="tlloop" class="tlbtn">Loop</button>
+                    <input type="range" id="tlscrubber" min="0" max="100" value="0">
+                    <span id="tltime">0:00.0</span>
+                </div>
+                <button class="panelcollapse">-</button>
+            </div>
+            <div class="panelbody" id="timelinebody">
+                <div id="timelinetracks"></div>
+                <div id="timelineruler"></div>
+            </div>
         </footer>
     </div>
 
-    <script type="module" src="js/main.js"></script>
+    <script src="core.js"></script>
+    <script src="renderer.js"></script>
+    <script src="physics.js"></script>
+    <script src="animation.js"></script>
+    <script src="ui.js"></script>
+    <script src="ecs.js"></script>
+    <script src="main.js"></script>
 </body>
 </html>
