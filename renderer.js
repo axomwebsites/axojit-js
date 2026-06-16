@@ -49,10 +49,12 @@ const renderer = {
         const py = (t.y - cy) * cz + this.height/2;
         const sx = t.scalex * cz;
         const sy = t.scaley * cz;
+        const opacity = r.opacity !== undefined ? r.opacity : 1;
         if (this.usewebgl) {
-            this.webgldraw(px, py, t.rotation, sx, sy, r);
+            this.webgldraw(px, py, t.rotation, sx, sy, r, opacity);
         } else {
             this.ctx.save();
+            this.ctx.globalAlpha = opacity;
             this.ctx.translate(px, py);
             this.ctx.rotate(t.rotation);
             this.ctx.scale(sx, sy);
@@ -60,7 +62,7 @@ const renderer = {
                 this.ctx.fillStyle = r.color || '#ffffff';
                 this.ctx.fillRect(-r.w/2, -r.h/2, r.w, r.h);
                 if (r.border) {
-                    this.ctx.strokeStyle = r.border || '#000000';
+                    this.ctx.strokeStyle = r.border;
                     this.ctx.lineWidth = 1;
                     this.ctx.strokeRect(-r.w/2, -r.h/2, r.w, r.h);
                 }
@@ -84,11 +86,26 @@ const renderer = {
                 this.ctx.textAlign = 'center';
                 this.ctx.textBaseline = 'middle';
                 this.ctx.fillText(r.text || '', 0, 0);
+            } else if (r.type === 'polygon') {
+                this.ctx.beginPath();
+                const pts = r.points || [{x:-10,y:-10},{x:10,y:-10},{x:0,y:10}];
+                for (let i = 0; i < pts.length; i++) {
+                    if (i === 0) this.ctx.moveTo(pts[i].x, pts[i].y);
+                    else this.ctx.lineTo(pts[i].x, pts[i].y);
+                }
+                this.ctx.closePath();
+                this.ctx.fillStyle = r.color || '#ffffff';
+                this.ctx.fill();
+                if (r.border) {
+                    this.ctx.strokeStyle = r.border;
+                    this.ctx.lineWidth = 1;
+                    this.ctx.stroke();
+                }
             }
             this.ctx.restore();
         }
     },
-    webgldraw: function(px, py, rot, sx, sy, r) {
+    webgldraw: function(px, py, rot, sx, sy, r, opacity) {
         const gl = this.gl;
         if (!gl) return;
         const program = this.getprogram();
@@ -103,13 +120,12 @@ const renderer = {
         m[12] = px; m[13] = py; m[15] = 1;
         gl.uniformMatrix4fv(mat, false, m);
         let color = r.color || '#ffffff';
+        let r2=1,g2=1,b2=1;
         if (color.startsWith('#')) {
             const c = parseInt(color.slice(1), 16);
-            const r2 = ((c>>16)&0xff)/255, g2 = ((c>>8)&0xff)/255, b2 = (c&0xff)/255;
-            gl.uniform4f(col, r2, g2, b2, 1);
-        } else {
-            gl.uniform4f(col, 1,1,1,1);
+            r2 = ((c>>16)&0xff)/255; g2 = ((c>>8)&0xff)/255; b2 = (c&0xff)/255;
         }
+        gl.uniform4f(col, r2, g2, b2, opacity);
         const w = r.w || 20;
         const h = r.h || 20;
         const vertices = new Float32Array([
