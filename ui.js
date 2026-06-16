@@ -97,6 +97,7 @@ const ui = {
         const entity = engine.getentity(id);
         const t = entity.transform;
         const r = entity.renderable;
+        const rb = entity.rigidbody;
         const group = document.createElement('div');
         group.className = 'propertygroup';
         const label = document.createElement('div');
@@ -118,7 +119,18 @@ const ui = {
                 props.push({ key: 'height', value: r.h || 20, step: 1 });
             } else if (r.type === 'circle') {
                 props.push({ key: 'radius', value: r.radius || 10, step: 1 });
+            } else if (r.type === 'text') {
+                props.push({ key: 'text', value: r.text || '', type: 'text' });
+                props.push({ key: 'fontsize', value: r.fontsize || 16, step: 1 });
             }
+        }
+        if (rb) {
+            props.push({ key: 'mass', value: rb.mass || 1, step: 0.1 });
+            props.push({ key: 'vx', value: rb.vx || 0, step: 0.1 });
+            props.push({ key: 'vy', value: rb.vy || 0, step: 0.1 });
+            props.push({ key: 'friction', value: rb.friction || 0, step: 0.01, min: 0, max: 1 });
+            props.push({ key: 'restitution', value: rb.restitution || 0.5, step: 0.01, min: 0, max: 1 });
+            props.push({ key: 'gravityscale', value: rb.gravityscale || 1, step: 0.1 });
         }
         for (let p of props) {
             const row = document.createElement('div');
@@ -135,16 +147,21 @@ const ui = {
             } else if (p.type === 'checkbox') {
                 input.type = 'checkbox';
                 input.checked = p.value;
+            } else if (p.type === 'text') {
+                input.type = 'text';
+                input.value = p.value;
             } else {
                 input.type = 'number';
-                input.step = p.step || 0.1;
+                if (p.step) input.step = p.step;
                 if (p.min !== undefined) input.min = p.min;
                 if (p.max !== undefined) input.max = p.max;
                 input.value = p.value;
             }
             input.addEventListener('input', () => {
-                let val = input.type === 'checkbox' ? input.checked : parseFloat(input.value);
-                if (isNaN(val) && input.type !== 'checkbox') return;
+                let val = input.type === 'checkbox' ? input.checked :
+                          input.type === 'text' ? input.value :
+                          parseFloat(input.value);
+                if (isNaN(val) && input.type !== 'checkbox' && input.type !== 'text') return;
                 if (p.key === 'x') t.x = val;
                 else if (p.key === 'y') t.y = val;
                 else if (p.key === 'rotation') t.rotation = val;
@@ -156,6 +173,15 @@ const ui = {
                     else if (p.key === 'width') r.w = val;
                     else if (p.key === 'height') r.h = val;
                     else if (p.key === 'radius') r.radius = val;
+                    else if (p.key === 'text') r.text = val;
+                    else if (p.key === 'fontsize') r.fontsize = val;
+                } else if (rb) {
+                    if (p.key === 'mass') rb.mass = val;
+                    else if (p.key === 'vx') rb.vx = val;
+                    else if (p.key === 'vy') rb.vy = val;
+                    else if (p.key === 'friction') rb.friction = val;
+                    else if (p.key === 'restitution') rb.restitution = val;
+                    else if (p.key === 'gravityscale') rb.gravityscale = val;
                 }
             });
             row.appendChild(input);
@@ -185,6 +211,25 @@ const ui = {
             trackdiv.style.position = 'relative';
             trackdiv.style.height = '20px';
             trackdiv.style.background = 'rgba(255,255,255,0.03)';
+            trackdiv.style.cursor = 'pointer';
+            trackdiv.dataset.entityid = id;
+            trackdiv.addEventListener('click', function(e) {
+                const rect = this.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const pct = x / rect.width;
+                const time = pct * animation.duration;
+                const value = prompt('Keyframe value for ' + entity.name, '0');
+                if (value !== null) {
+                    const num = parseFloat(value);
+                    if (!isNaN(num)) {
+                        const prop = prompt('Property (x, y, rotation, opacity, scalex, scaley):', 'x');
+                        if (prop) {
+                            animation.addkeyframe(id, prop, time, num, 'linear');
+                            ui.updatetimeline(engine);
+                        }
+                    }
+                }
+            });
             for (let prop in tracks) {
                 const keyframes = tracks[prop];
                 for (let kf of keyframes) {
@@ -197,7 +242,7 @@ const ui = {
                     dot.style.borderRadius = '50%';
                     dot.style.background = '#6a8ac0';
                     dot.style.cursor = 'pointer';
-                    dot.title = prop + ' at ' + kf.time.toFixed(1) + 's';
+                    dot.title = prop + ' at ' + kf.time.toFixed(1) + 's = ' + kf.value;
                     trackdiv.appendChild(dot);
                 }
             }
