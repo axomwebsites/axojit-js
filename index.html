@@ -3,11 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Axojita Game Engine</title>
-    <link rel="stylesheet" href="css/style.css">
+    <title>Axojit Game Engine - Studio</title>
+    <link rel="stylesheet" href="css/studio.css">
 </head>
 <body>
-    <canvas id="glCanvas"></canvas>
+    <div id="studio-container">
+        <header id="top-ribbon">
+            <div class="studio-logo">Axojit Studio</div>
+            <div class="ribbon-tabs">
+                <button class="tab-btn active">Home</button>
+                <button class="tab-btn">Model</button>
+                <button class="tab-btn">Test</button>
+                <button class="tab-btn">View</button>
+            </div>
+            <div class="quick-actions">
+                <button id="btn-play" class="action-btn">Run</button>
+                <button id="btn-stop" class="action-btn" disabled>Stop</button>
+                <button id="btn-spawn" class="action-btn">+ Spawn Part</button>
+            </div>
+        </header>
+
+        <main id="workspace">
+            <section id="left-panel" class="sidebar">
+                <div class="panel-header">Toolbox</div>
+                <div class="panel-content empty"></div>
+            </section>
+
+            <section id="viewport-container">
+                <canvas id="glCanvas"></canvas>
+            </section>
+
+            <section id="right-panel" class="sidebar">
+                <div class="sub-panel" id="explorer-panel">
+                    <div class="panel-header">Explorer</div>
+                    <div id="explorer-tree" class="panel-content">
+                        <div class="tree-item root">Workspace</div>
+                    </div>
+                </div>
+                <div class="sub-panel" id="properties-panel">
+                    <div class="panel-header">Properties</div>
+                    <div id="properties-list" class="panel-content">
+                        <div class="prop-row text-center">Select an object to inspect</div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer id="output-bar">
+            <div class="panel-header">Output</div>
+            <div id="output-log" class="panel-content">Axojit Game Engine loaded successfully.</div>
+        </footer>
+    </div>
+
     <script type="module" src="js/main.js"></script>
 </body>
 </html>
