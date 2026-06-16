@@ -48,6 +48,14 @@ const animation = {
             default: return t;
         }
     },
+    addkeyframe: function(entityid, property, time, value, ease) {
+        const keyframes = this.tracks.get(entityid)?.[property] || [];
+        const kf = { time: time, value: value, ease: ease || 'linear' };
+        keyframes.push(kf);
+        keyframes.sort((a,b) => a.time - b.time);
+        if (!this.tracks.has(entityid)) this.tracks.set(entityid, {});
+        this.tracks.get(entityid)[property] = keyframes;
+    },
     update: function(entities, dt) {
         if (!this.playing) return;
         this.time += dt;
