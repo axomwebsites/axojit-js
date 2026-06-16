@@ -13,6 +13,11 @@ const ecs = {
         if (script.init) script.init(entity, engine);
         return true;
     },
+    detach: function(entityid, scriptname) {
+        const entity = engine.getentity(entityid);
+        if (!entity) return;
+        delete entity.components[scriptname];
+    },
     update: function(engine, dt) {
         for (let [id, entity] of engine.entities) {
             if (!entity.active) continue;
